@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "pow2f_lut.h"
+#include "sin2pif_lut.h"
 
 // courtesy of Emilie Gillet
 #define MAKE_INTEGRAL_FRACTIONAL(x) \
@@ -46,6 +47,14 @@ inline float pow2f(float x) {
     float lut_val = interpolate(pow2f_lut, x_fractional, 1024.0);
     lut_val *= static_cast<float>(1 << x_integral);
     return neg? 1.0f/lut_val : lut_val;
+}
+
+inline float sin2pif(float x) {
+    x *= 4.0f;
+    if (x < 1.0f) return  interpolate(sin2pif_lut, x, 1024.0);
+    if (x < 2.0f) return  interpolate(sin2pif_lut, 2.0f - x, 1024.0);
+    if (x < 3.0f) return -interpolate(sin2pif_lut, x - 2.0f, 1024.0);
+    else return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
 }
 
 inline float sign(float x) {
