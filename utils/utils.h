@@ -51,10 +51,10 @@ inline float pow2f(float x) {
 
 inline float sin2pif(float x) {
     x *= 4.0f;
-    if (x < 1.0f) return  interpolate(sin2pif_lut, x, 1024.0);
+    if (x < 1.0f) return  interpolate(sin2pif_lut, x,        1024.0);
     if (x < 2.0f) return  interpolate(sin2pif_lut, 2.0f - x, 1024.0);
     if (x < 3.0f) return -interpolate(sin2pif_lut, x - 2.0f, 1024.0);
-    else return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
+    else          return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
 }
 
 inline float sign(float x) {
