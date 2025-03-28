@@ -8,7 +8,6 @@
 #include "hardware/clocks.h"
 
 #include "audio_dac.pio.h"
-#include "../hw_config.h"
 
 // based on the structure of the audio_dac from Emilie Gillet's Plaits
 
@@ -26,7 +25,8 @@ class AudioDAC {
 
         typedef void (*FillBufferCallback)(Frame* tx, size_t size);
 
-        void init(uint32_t sample_rate, size_t block_size);
+        void init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_machine
+                  uint i2s_data_pin, uint i2s_clk_pin);
         void start(FillBufferCallback callback);
         void stop();
         void fill();
@@ -36,7 +36,7 @@ class AudioDAC {
         uint8_t dma_chan, pio_sm;
         
     private:
-        void init_gpio();
+        void init_gpio(uint i2s_data_pin, uint i2s_clk_pin);
         void init_audio_interface(uint32_t sample_rate);
         void init_dma(size_t block_size);
 
