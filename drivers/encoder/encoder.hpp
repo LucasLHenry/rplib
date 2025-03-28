@@ -5,7 +5,7 @@
 #include "hardware/pio.h"
 #include "hardware/dma.h"
 #include "encoder.pio.h"
-#include "gpio_irq_handler.hpp"
+#include "../gpio_irq_handler/gpio_irq_handler.hpp"
 
 // based on Adam Green's Quadrature Decoder driver for the RP2040
 // https://github.com/adamgreen/QuadratureDecoder

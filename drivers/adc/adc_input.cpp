@@ -41,7 +41,7 @@ void ADCInput::read() {
 }
 
 void ADCInput::process_pot(uint16_t raw_val_) {
-    ONE_POLE_LPF(value_u12, raw_val_, ADC_POT_LPF_AMT);
+    ONE_POLE_LPF(value_u12, raw_val_, 0.1f);
 }
 
 void ADCInput::process_cv(uint16_t raw_val_) {

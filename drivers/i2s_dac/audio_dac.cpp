@@ -2,7 +2,7 @@
 
 AudioDAC audio_dac;
 
-void AudioDAC::init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_machine
+void AudioDAC::init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_machine,
                     uint i2s_data_pin, uint i2s_clk_pin) {
     sample_rate_ = sample_rate;
     block_size_ = block_size;
@@ -10,7 +10,7 @@ void AudioDAC::init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_m
     next_read_buffer = &tx_dma_buffer_2[0];
     pio_sm = pio_state_machine;
     init_gpio(i2s_data_pin, i2s_clk_pin);
-    init_audio_interface(sample_rate);
+    init_audio_interface(sample_rate, i2s_data_pin, i2s_clk_pin);
     init_dma(block_size_);
 }
 
@@ -37,15 +37,15 @@ void AudioDAC::swap_buffers() {
 }
 
 void AudioDAC::init_gpio(uint i2s_data_pin, uint i2s_clk_pin) {
-    gpio_set_function(I2S_DATA_PIN, GPIO_FUNC_PIO0);
-    gpio_set_function(I2S_BASE_CLK_PIN, GPIO_FUNC_PIO0);
-    gpio_set_function(I2S_BASE_CLK_PIN + 1, GPIO_FUNC_PIO0);
+    gpio_set_function(i2s_data_pin, GPIO_FUNC_PIO0);
+    gpio_set_function(i2s_clk_pin, GPIO_FUNC_PIO0);
+    gpio_set_function(i2s_clk_pin + 1, GPIO_FUNC_PIO0);
 }
 
-void AudioDAC::init_audio_interface(uint32_t sample_rate) {
+void AudioDAC::init_audio_interface(uint32_t sample_rate, uint i2s_data_pin, uint i2s_clk_pin) {
     uint offset = pio_add_program(pio0, &audio_i2s_program);
     
-    audio_i2s_program_init(pio0, pio_sm, offset, I2S_DATA_PIN, I2S_BASE_CLK_PIN);
+    audio_i2s_program_init(pio0, pio_sm, offset, i2s_data_pin, i2s_clk_pin);
     
     float divider = (float)clock_get_hz(clk_sys) / (sample_rate *  2 * 32);
  

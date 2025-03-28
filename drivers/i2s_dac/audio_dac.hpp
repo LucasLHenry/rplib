@@ -25,7 +25,7 @@ class AudioDAC {
 
         typedef void (*FillBufferCallback)(Frame* tx, size_t size);
 
-        void init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_machine
+        void init(uint32_t sample_rate, size_t block_size, uint8_t pio_state_machine,
                   uint i2s_data_pin, uint i2s_clk_pin);
         void start(FillBufferCallback callback);
         void stop();
@@ -37,7 +37,7 @@ class AudioDAC {
         
     private:
         void init_gpio(uint i2s_data_pin, uint i2s_clk_pin);
-        void init_audio_interface(uint32_t sample_rate);
+        void init_audio_interface(uint32_t sample_rate, uint i2s_data_pin, uint i2s_clk_pin);
         void init_dma(size_t block_size);
 
         size_t block_size_;
