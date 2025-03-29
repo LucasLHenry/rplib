@@ -57,6 +57,12 @@ inline float sin2pif(float x) {
     else          return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
 }
 
+inline float cos2pif(float x) {
+    x -= 0.25f;
+    if (x < 0.0f) x += 1.0f;
+    return sin2pif(x);
+}
+
 inline float sign(float x) {
     return (x > 0)? 1.0f : -1.0f;
 }
