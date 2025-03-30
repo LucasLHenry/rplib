@@ -58,8 +58,8 @@ inline float sin2pif(float x) {
 }
 
 inline float cos2pif(float x) {
-    x -= 0.25f;
-    if (x < 0.0f) x += 1.0f;
+    x += 0.25f;
+    if (x >= 1.0f) x -= 1.0f;
     return sin2pif(x);
 }
 
