@@ -2,7 +2,7 @@
 #define DRIVERS_ADC_INPUT_H_
 
 #include "hardware/adc.h"
-#include "../../dsp/dsp.h"
+#include "../utils/utils.h"
 
 #define MAX_OVERSAMPLE_AMT 64
 
