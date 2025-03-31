@@ -50,6 +50,7 @@ inline float pow2f(float x) {
 }
 
 inline float sin2pif(float x) {
+    while (x > 1.0f) x -= 1.0f;
     x *= 4.0f;
     if (x < 1.0f) return  interpolate(sin2pif_lut, x,        1024.0);
     if (x < 2.0f) return  interpolate(sin2pif_lut, 2.0f - x, 1024.0);
