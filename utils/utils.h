@@ -132,7 +132,7 @@ class WindowFilter {
         size_t size_;
 };
 
-class BiquadFilter() {
+class BiquadFilter {
     public:
         BiquadFilter() {}
         ~BiquadFilter() {}
