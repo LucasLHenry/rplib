@@ -102,4 +102,64 @@ inline float this_iblep(float t) {
     return next_iblep(1.0f - t);
 }
 
+#define MAX_WINDOW_SIZE 32
+#define _LOG2_MAX_WINDOW_SIZE 5
+template <typename T>
+class WindowFilter {
+    public:
+        WindowFilter() {}
+        ~WindowFilter() {}
+
+        void init(size_t size) {
+            size_ = size;
+            for (uint i = 0; i < size_; i++) values_[i] = static_cast<T>(0);
+            sum_ = static_cast<T>(0);
+            idx_ = 0;
+        }
+
+        T next(T val) {
+            sum_ += val;
+            sum_ -= values_[idx_];
+            values_[idx_++] = val;
+            if (idx_ >= MAX_WINDOW_SIZE) idx_ = 0;
+            return sum_ >> _LOG2_MAX_WINDOW_SIZE;
+        }
+    
+    private:
+        T values_[MAX_WINDOW_SIZE];
+        T sum_;
+        uint8_t idx_;
+        size_t size_;
+};
+
+class BiquadFilter() {
+    public:
+        BiquadFilter() {}
+        ~BiquadFilter() {}
+
+        void init(float a0, float a1, float a2, float b1, float b2) {
+            a0_ = a0;
+            a1_ = a1;
+            a2_ = a2;
+            b1_ = b1;
+            b2_ = b2;
+        }
+
+        float process(float sample) {
+            float y = a0_*sample + a1_*x_nm1 + a2_*x_nm2 - b1_*y_nm1 -b2_*y_nm2;
+            x_nm2 = x_nm1;
+            x_nm1 = sample;
+            y_nm2 = y_nm1;
+            y_nm1 = y;
+            return y;
+        }
+    
+    private:
+        float a0_, a1_, a2_
+        float b1_, b2_;
+        float x_nm1, x_nm2;
+        float y_nm1, y_nm2;
+}
+
+
 #endif  // UTILS_H_
