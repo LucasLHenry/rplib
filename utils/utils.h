@@ -155,7 +155,7 @@ class BiquadFilter {
         }
     
     private:
-        float a0_, a1_, a2_
+        float a0_, a1_, a2_;
         float b1_, b2_;
         float x_nm1, x_nm2;
         float y_nm1, y_nm2;
