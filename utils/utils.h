@@ -50,17 +50,17 @@ inline float pow2f(float x) {
 }
 
 inline float sin2pif(float x) {
-    while (x > 1.0f) x -= 1.0f;
+    MAKE_INTEGRAL_FRACTIONAL(x)
+    x = x_fractional;
     x *= 4.0f;
     if (x < 1.0f) return  interpolate(sin2pif_lut, x,        1024.0);
     if (x < 2.0f) return  interpolate(sin2pif_lut, 2.0f - x, 1024.0);
     if (x < 3.0f) return -interpolate(sin2pif_lut, x - 2.0f, 1024.0);
-    else          return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
+    else           return -interpolate(sin2pif_lut, 4.0f - x, 1024.0);
 }
 
 inline float cos2pif(float x) {
     x += 0.25f;
-    if (x >= 1.0f) x -= 1.0f;
     return sin2pif(x);
 }
 
@@ -112,7 +112,7 @@ class WindowFilter {
 
         void init(size_t size) {
             size_ = size;
-            for (uint i = 0; i < size_; i++) values_[i] = static_cast<T>(0);
+            for (uint32_t i = 0; i < size_; i++) values_[i] = static_cast<T>(0);
             sum_ = static_cast<T>(0);
             idx_ = 0;
         }
@@ -159,7 +159,7 @@ class BiquadFilter {
         float b1_, b2_;
         float x_nm1, x_nm2;
         float y_nm1, y_nm2;
-}
+};
 
 
 #endif  // UTILS_H_
