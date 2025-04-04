@@ -21,7 +21,7 @@ def main():
         f.write(file_header)
         f.write(f"const float sin2pif_lut[{TABLE_LEN}] = {{\n")
         for i in range(TABLE_LEN):
-            x = m.sin(m.pi* (i / TABLE_LEN) * 0.5)
+            x = m.sin(m.pi* (i / TABLE_LEN) * 2.0)
             arr_write_item(f, i, x, 32, TABLE_LEN)
         f.write(array_footer)
         f.write(file_footer)
